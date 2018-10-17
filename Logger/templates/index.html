@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title_block %}
+    <title>Run List</title>
+{% endblock %}
+{% block body_block %}
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active" aria-current="page">Home</li>
+        </ol>
+    </nav>
+
+    {% if started %}
+        <section class="jumbotron text-center">
+            <div class="container">
+                <h1 class="jumbotron-heading">Started Run</h1>
+                <hr class="my-2">
+                <ul class="list-group">
+                    {% for run in started %}
+                    <li class="list-group-item list-group-item-action bg-primary"><a class="text-light" href="run/{{ run.runId }}">{{ run.runId }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </section>
+    {% else %}
+        <section class="jumbotron text-center">
+            <div class="container">
+                <h1 class="jumbotron-heading">Started Run</h1>
+                <h4 class="jumbotron-heading">All run completed!</h4>
+            </div>
+        </section>
+    {% endif %}
+
+    <hr class="my-4">
+    
+    {% if failed %}
+        <section class="jumbotron text-center">
+            <div class="container">
+                <h1 class="jumbotron-heading">Failed Run</h1>
+                <hr class="my-2">
+                <ul class="list-group">
+                    {% for run in failed %}
+                    <li class="list-group-item list-group-item-action bg-danger"><a class="text-light" href="run/{{ run.runId }}">{{ run.runId }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </section>
+    {% else %}
+        <section class="jumbotron text-center">
+            <div class="container">
+                <h1 class="jumbotron-heading">Failed Run</h1>
+                <h4 class="jumbotron-heading">Congratulations! you have a robust pipeline.</h4>
+            </div>
+        </section>
+    {% endif %}
+
+    <hr class="my-4">
+
+    {% if success %}
+        <section class="jumbotron text-center">
+            <div class="container">
+                <h1 class="jumbotron-heading">Successful Run</h1>
+                <hr class="my-2">
+                <ul class="list-group">
+                    {% for run in success %}
+                    <li class="list-group-item list-group-item-action bg-success"><a class="text-light" href="run/{{ run.runId }}">{{ run.runId }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </section>
+    {% else %}
+        <section class="jumbotron text-center">
+            <div class="container">
+                <h1 class="jumbotron-heading">Successful Run</h1>
+                <h4 class="jumbotron-heading">No successful run!</h4>
+            </div>
+        </section>
+    {% endif %}
+
+{% endblock %}

@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title_block %}
+    <title>{{ run.runId }}</title>
+{% endblock %}
+{% block body_block %}
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="../">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ run.runId }}</li>
+        </ol>
+    </nav>
+
+    {% if run %}
+        <section class="jumbotron text-center">
+            <div class="container">
+                <h1 class="jumbotron-heading font-italic display-4">{{ run.runName }}</h1>
+                <h5 class="jumbotron-heading">{{ run.runId }} 
+                    {% if run.runStatus == 'started' %}
+                        <span class="badge badge-primary">started</span>
+                    {% elif run.runStatus == 'error' %}
+                        <span class="badge badge-warning">error</span>
+                    {% elif run.runStatus == 'success' %}
+                        <span class="badge badge-success">success</span>
+                    {% elif run.runStatus == 'failed' %}
+                        <span class="badge badge-danger">failed</span>
+                    {% else %}
+                        <span class="badge badge-secondary">unknown</span>
+                    {% endif %}
+                </h5>
+                {% if run.startedDatetime %}
+                    <div class="alert border-primary">
+                        <p class="lead text-muted">started at {{ run.startedDatetime }}</p>
+                    </div>
+                {% endif %}
+                {% if run.errorDatetime %}
+                    <div class="alert border-warning" role="alert">
+                        <p class="lead text-muted">error at {{ run.errorDatetime }}</p>
+                    </div>
+                {% endif %}
+                {% if run.completedDatetime %}
+                    {% if run.runStatus == 'success' %}
+                        <div class="alert border-success" role="alert">
+                            <p class="lead text-muted">successful at {{ run.completedDatetime }}</p>
+                        </div>
+                    {% elif run.runStatus == 'failed' %}
+                        <div class="alert border-danger" role="alert">
+                            <p class="lead text-muted">failed at {{ run.completedDatetime }}</p>
+                        </div>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </section>
+        <div class="album py-5 bg-light">
+            <div class="container">
+                {% if processes %}
+                    <div class="row">
+                    {% for proc in processes %}
+                        <div class="col-md-4">
+                            {% if proc.status == 'SUBMITTED' %}
+                            <div class="card bg-info text-white mb-3 box-shadow">
+                            {% elif proc.status == 'RUNNING' %}
+                            <div class="card bg-primary text-white mb-3 box-shadow">
+                            {% elif proc.status == 'ABORTED' %}
+                            <div class="card bg-secondary text-white mb-3 box-shadow">
+                            {% elif proc.status == 'COMPLETED' %}
+                            <div class="card bg-success text-white mb-3 box-shadow">
+                            {% elif proc.status == 'FAILED' %}
+                            <div class="card bg-danger text-white mb-3 box-shadow">
+                            {% else %}
+                            <div class="card bg-light text-white mb-3 box-shadow">
+                            {% endif %}
+                                <div class="card-header">{{ proc.name }}</div>
+                                <div class="card-body">
+                                    <h6>hashtag:    {{ proc.hashtag }}</h6>
+                                    <h6>process:    {{ proc.process }}</h6>
+                                    <h6>status:     {{ proc.status }}</h6>
+                                    <div class="text-right">
+                                        <div class="btn-group">
+                                            <a href="/" class="btn btn-sm btn-outline-light disabled" role="button">Manage</a>
+                                            <a href="{{ proc.runId }}/{{ proc.hashtag }}" class="btn btn-sm btn-outline-light" role="button">Detail</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}    
+                    </div>
+                {% else %}
+                    <p>No PROCESS currently in this RUN</p>
+                {% endif %}
+            </div>
+        </div>
+    {% else %}
+        <section class="jumbotron text-center">
+            <div class="container">
+                <h4 class="jumbotron-heading">RunID is invalid!</h4>
+            </div>
+        </section>
+    {% endif %}
+
+{% endblock %}

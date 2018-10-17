@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title_block %}
+    <title>{{ process.runId }}</title>
+{% endblock %}
+{% block body_block %}
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item"><a href="/run/{{ process.runId }}">{{ process.runId }}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ process.hashtag }}</li>
+        </ol>
+    </nav>
+
+    {% if process %}
+        <section class="jumbotron text-center">
+            <div class="container">
+                <h1 class="jumbotron-heading font-italic display-4">{{ process.hashtag }}</h1>
+                <hr class="my-4">
+                <dl class="row">
+                    <dt class="col-sm-5">Run ID</dt>
+                    <dd class="col-sm-7">{{ process.runId }}</dd>
+
+                    <dt class="col-sm-5">Run Status</dt>
+                    <dd class="col-sm-7">{{ process.runStatus }}</dd>
+
+                    <hr class="my-4">
+
+                    <dt class="col-sm-5">Process Name</dt>
+                    <dd class="col-sm-7">{{ process.name }}</dd>
+
+                    <dt class="col-sm-5">Process Status</dt>
+                    <dd class="col-sm-7">{{ process.status }}</dd>
+
+                    <dt class="col-sm-5">Exitcode</dt>
+                    <dd class="col-sm-7">{{ process.exitcode }}</dd>
+
+                    <dt class="col-sm-5">Attempt</dt>
+                    <dd class="col-sm-7">{{ process.attempt }}</dd>
+
+                    <dt class="col-sm-5">Error Action</dt>
+                    <dd class="col-sm-7">{{ process.error_action }}</dd>
+
+                    <dt class="col-sm-5">Native ID</dt>
+                    <dd class="col-sm-7">{{ process.native_id }}</dd>
+
+                    <dt class="col-sm-5">Duration</dt>
+                    <dd class="col-sm-7">{{ process.duration }}</dd>
+
+                    <dt class="col-sm-5">Submitted Datetime</dt>
+                    <dd class="col-sm-7">{{ process.submittedDatetime }}</dd>
+
+                    <dt class="col-sm-5">Started Datetime</dt>
+                    <dd class="col-sm-7">{{ process.startedDatetime }}</dd>
+
+                    <dt class="col-sm-5">Completed Datetime</dt>
+                    <dd class="col-sm-7">{{ process.completedDatetime }}</dd>
+
+                    <hr class="my-4">
+
+                    <dt class="col-sm-5">Process Type</dt>
+                    <dd class="col-sm-7">{{ process.process }}</dd>
+
+                    <dt class="col-sm-5">Container</dt>
+                    <dd class="col-sm-7">{{ process.container }}</dd>
+                    
+                    <dt class="col-sm-5">Cpus</dt>
+                    <dd class="col-sm-7">{{ process.cpus }}</dd>
+
+                    <dt class="col-sm-5">Memory</dt>
+                    <dd class="col-sm-7">{{ process.memory }}</dd>
+
+                    <dt class="col-sm-5">Disk</dt>
+                    <dd class="col-sm-7">{{ process.disk }}</dd>
+
+                    <dt class="col-sm-5">Workdir</dt>
+                    <dd class="col-sm-7">{{ process.workdir }}</dd>
+
+                    <dt class="col-sm-5">Environment</dt>
+                    <dd class="col-sm-7">{{ process.env }}</dd>
+
+                    <dt class="col-sm-5">Queue</dt>
+                    <dd class="col-sm-7">{{ process.queue }}</dd>
+
+                    <dt class="col-sm-5">Script</dt>
+                    <dd class="col-sm-7 bg-dark">
+                        {% for line in script_lines %}
+                        <p class="text-light text-left">{{ line }}</p>
+                        {% endfor %}
+                    </dd>
+                </dl>
+            </div>
+        </section>
+        <div>
+
+    {% else %}
+        <section class="jumbotron text-center">
+            <div class="container">
+                <h4 class="jumbotron-heading">target process is invalid!</h4>
+            </div>
+        </section>
+    {% endif %}
+
+{% endblock %}
